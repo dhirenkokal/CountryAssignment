@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'country_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'country_model.dart'; // Import your country model here
-import 'country_details_page.dart'; // Import the country details page
+import 'country_model.dart';
+import 'country_details_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -151,9 +151,23 @@ class _HomePageState extends State<HomePage> {
         itemBuilder: (context, index) {
           final region = _countriesByRegion.keys.elementAt(index);
           final countries = _countriesByRegion[region]!;
-          return ExpansionTile(
-            title: Text(region),
-            children: countries.map((country) => _buildCountryTile(country)).toList(),
+          return Card(
+            elevation: 2,
+            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: ExpansionTile(
+              title: Text(
+                region,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.blue,
+                ),
+              ),
+              children: countries.map((country) => _buildCountryTile(country)).toList(),
+            ),
           );
         },
       ),
@@ -162,9 +176,9 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildCountryTile(Model country) {
     return Card(
+      color: Colors.blueGrey[100],
       elevation: 4,
       margin: EdgeInsets.all(8),
-      color: Colors.blueGrey[100],
       child: ListTile(
         leading: _buildFlagImage(country),
         title: Text(

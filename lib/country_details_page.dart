@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'country_model.dart'; // Import your country model here
+import 'country_model.dart';
 
 class CountryDetailsPage extends StatelessWidget {
   final Model country;
@@ -87,7 +87,7 @@ class CountryDetailsPage extends StatelessWidget {
             color: Colors.white,
           ),
         ),
-        Divider(color: Colors.white), // Add a divider for better separation
+        Divider(color: Colors.white),
         SizedBox(height: 16),
       ],
     );

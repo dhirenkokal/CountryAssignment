@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:connectivity/connectivity.dart'; // Import the connectivity package
+import 'package:connectivity/connectivity.dart';
 import 'country_model.dart';
 
 class CountryService {
   Future<List<Model>> fetchCountries() async {
     try {
-      // Check for device internet connection
       var connectivityResult = await Connectivity().checkConnectivity();
       if (connectivityResult == ConnectivityResult.none) {
         // No internet connection

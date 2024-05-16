@@ -1,11 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'country_service.dart';
 import 'package:http/http.dart' as http;
 import 'country_model.dart';
-
-// Modify the CountryProvider to include a method for grouping countries by region
+import 'package:connectivity/connectivity.dart';
 
 class CountryProvider extends ChangeNotifier {
   List<Model> _countries = [];
@@ -21,6 +19,14 @@ class CountryProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
+      bool isConnected = await checkInternetConnection();
+      if (!isConnected) {
+        _hasError = true;
+        _isLoading = false;
+        notifyListeners();
+        return;
+      }
+
       final response = await http.get(Uri.parse('https://restcountries.com/v3.1/all'));
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body);
@@ -34,6 +40,15 @@ class CountryProvider extends ChangeNotifier {
 
     _isLoading = false;
     notifyListeners();
+  }
+
+  Future<bool> checkInternetConnection() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      return false; // No internet connection
+    } else {
+      return true; // Internet connection is available
+    }
   }
 
   Map<String, List<Model>> groupCountriesByRegion() {
